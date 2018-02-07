@@ -26,12 +26,9 @@ var userCommand = arguments[2];
 // Initialize userInput variable
 var userInput;
 
-// If user did not provide an input
-if (!arguments[3]) {
-  // Set userInput to null
-  userInput = null
-} else {
-  // Otherwise construct userInput as a single string from arguments[3] - arguments[n]
+// If user provided at least 1 input after command
+if (arguments[3]) {
+  // Construct userInput as a single string made up of arguments[3] through arguments[n]
   var userInputArr = [];
   for (i = 3; i < arguments.length; i++) {
     userInputArr.push(arguments[i]);
@@ -66,59 +63,72 @@ console.log(`\n
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 \n`);
 
-// Check to see if user entered a command
-// If a command was not entered, present user with available commands
-// If a command was entered, send to switch statemenet to determine next steps
-if (!userCommand) {
-  console.log("LIRI Says: You didn't enter a command. Please try again with one of the following commands:");
-  console.log("-- my-tweets");
-  console.log("-- spotify-this-song (followed by song title)");
-  console.log("-- movie-this (followed by movie title)");
-  console.log("-- do-what-it-says (reads from a text file for command input)\n");
-} else {
-  // userCommand switch statement
-  switch(userCommand) {
+function determineFunction() {
+  // Check to see if user entered a command
+  // If a command was not entered, present user with available commands
+  // If a command was entered, send to switch statemenet to determine next steps
+  if (!userCommand) {
+    console.log("LIRI Says: You didn't enter a command. Please try again with one of the following commands:");
+    console.log("-- my-tweets");
+    console.log("-- spotify-this-song (followed by song title)");
+    console.log("-- movie-this (followed by movie title)");
+    console.log("-- do-what-it-says (reads from a text file for command input)\n");
+  } else {
+    // userCommand switch statement
+    switch(userCommand) {
 
-    // If userCommand = my-tweets, display a message, pause, and call myTweets function
-    case "my-tweets":
-      console.log("LIRI Says: Searching tweets...\n");
-      setTimeout(myTweets, 2000);
-      break;
+      // If userCommand = my-tweets, display a message, pause, and call myTweets function
+      case "my-tweets":
+        console.log(`LIRI Says: Searching ${twitterHandle.screen_name}'s tweets...\n`);
+        setTimeout(myTweets, 2000);
+        break;
 
-    // If userCommand = spotify-this-song
-    case ("spotify-this-song"):
-      // If user provided a song title
-      if (userInput) {
-        // Display message saying that LIRI is searching for that song
-        console.log(`LIRI Says: Searching Spotify for "${userInput}"...\n`);
-      } else {
-        // Otherwise display a message saying that LIRI is searching for a default song
-        console.log("LIRI Says: You didn't specify a song, so I'll just search for Hakuna Matata for you...");
-      }
-      // Call spotifySong function after 2 seconds
-      setTimeout(spotifySong, 2000);
-      break;
+      // If userCommand = spotify-this-song
+      case ("spotify-this-song"):
+        // If user provided a song title
+        if (userInput) {
+          // Display message saying that LIRI is searching for that song
+          console.log(`LIRI Says: Searching Spotify for ${userInput}...\n`);
+        } else {
+          // Otherwise display a message saying that LIRI is searching for a default song
+          console.log("LIRI Says: You didn't specify a song, so I'll just search for Hakuna Matata for you...\n");
+        }
+        // Call spotifySong function after 2 seconds
+        setTimeout(spotifySong, 2000);
+        break;
 
-    // If userCommand = movie-this
-    case ("movie-this"):
-      // If user provided a movie title
-      if (userInput) {
-        // Display a message saying that LIRI is searching for that movie
-        console.log(`LIRI Says: Searching OMDB for "${userInput}"...\n`);
-      } else {
-        // Otherwise display a message saying that LIRI is searching for a default movie
-        console.log("LIRI Says: You didn't specify a movie, so I'll just search for The Lion King for you...\n");
-      }
-      // Call movieThis function after 2 seconds
-      setTimeout(movieThis, 2000);
-      break;
+      // If userCommand = movie-this
+      case ("movie-this"):
+        // If user provided a movie title
+        if (userInput) {
+          // Display a message saying that LIRI is searching for that movie
+          console.log(`LIRI Says: Searching OMDB for ${userInput}...\n`);
+        } else {
+          // Otherwise display a message saying that LIRI is searching for a default movie
+          console.log("LIRI Says: You didn't specify a movie, so I'll just search for The Lion King for you...\n");
+        }
+        // Call movieThis function after 2 seconds
+        setTimeout(movieThis, 2000);
+        break;
 
-    // If userCommand = do-what-it-says, display a message, pause, and call doWhatItSays function
-    case ("do-what-it-says"):
-      console.log("LIRI Says: So demanding. Doing what it says, boss...\n");
-      setTimeout(doWhatItSays, 2000);
+      // If userCommand = do-what-it-says, display a message, pause, and call doWhatItSays function
+      case ("do-what-it-says"):
+        console.log("LIRI Says: So demanding. Doing what it says, boss...\n");
+        setTimeout(doWhatItSays, 2000);
+        break;
+
+      // If userCommand = anything other than the above cases, display an error message
+      default:
+        console.log(`LIRI Says: I'm sorry, "${userCommand}" is not a valid command. Please try again with one of the following commands:`);
+        console.log("-- my-tweets");
+        console.log("-- spotify-this-song (followed by song title)");
+        console.log("-- movie-this (followed by movie title)");
+        console.log("-- do-what-it-says (reads from a text file for command input)\n");
+    }
   }
 }
+
+
 
 function myTweets() {
   // Make GET request to Twitter API
@@ -132,6 +142,7 @@ function myTweets() {
       // Log overview message
       console.log(`LIRI Says: Here the 20 most recent tweets from ${twitterHandle.screen_name} (all times local to you):\n`);
 
+      var counter = 1;
       // Loop through the first 20 tweets returned in tweets (or all tweets if less than 20)
       for (i = 0; i < 20 && i < tweets.length; i++) {
 
@@ -141,7 +152,17 @@ function myTweets() {
         var convertedDate = moment(dateTime).format("MMMM Do YYYY");
         var convertedTime = moment.parseZone(dateTime).local().format("HH:mm a");
 
+        console.log(`Tweet #${counter}`);
+        if (counter < 10) {
+          console.log("========");
+        } else {
+          console.log("=========");
+        }
+
         console.log(`At ${convertedTime} on ${convertedDate}, ${twitterHandle.screen_name} tweeted: ${tweets[i].text}\n`);
+
+        // Increment counter
+        counter++;
       }
     } else {
       // Otherwise log an error message
@@ -151,9 +172,9 @@ function myTweets() {
 }
 
 function spotifySong() {
-  if (userInput) {
-    console.log(`LIRI Says: Here's what I have on "${userInput}":\n`);
-  } else {
+
+  // If user didn't provide a song, set it to a default song
+  if (!userInput) {
     userInput = "Hakuna Matata";
   }
 
@@ -234,5 +255,21 @@ function movieThis() {
 }
 
 function doWhatItSays() {
-  console.log("LIRI Says: Here, I did what it said:\n");
+  // Read from file
+  fs.readFile("random.txt", "utf8", function(err, data) {
+    if (err) {
+      console.log("LIRI Says: I'm sorry, I received an error. Please try again.\n");
+    } else {
+      // Split file contents into userCommand and userInput
+      dataArr = data.split(",");
+      userCommand = dataArr[0];
+      userInput = dataArr[1];
+
+      // Call determineFunction()
+      determineFunction()
+    }
+  });
 }
+
+// Call determineFunction to begin
+determineFunction();
