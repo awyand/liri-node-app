@@ -63,7 +63,9 @@ Replace Ed__The__Hyena with your desired Twitter handle.
 
 Execution Example:
 
-```node liri.js my-tweets```
+```
+node liri.js my-tweets
+```
 
 ### spotify-this-song
 
