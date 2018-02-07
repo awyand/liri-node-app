@@ -26,13 +26,17 @@ All dependencies are tracked in the provided package.json and package-lock.json 
 
 ### API Keys
 
-You will need to obtain API keys for the Twitter and Spotify APIs.  Use the links in the Description section to obtain them.  Once you've obtained your keys, create a file named .env within the "liri-node-app" directory and save your keys and secrets like this: ```TWITTER_CONSUMER_KEY=your-twitter-consumer-key
+You will need to obtain API keys for the Twitter and Spotify APIs.  Use the links in the Description section to obtain them.  Once you've obtained your keys, create a file named .env within the "liri-node-app" directory and save your keys and secrets like this:
+
+```
+TWITTER_CONSUMER_KEY=your-twitter-consumer-key
 TWITTER_CONSUMER_SECRET=your-twitter-consumer-secret
 TWITTER_ACCESS_TOKEN_KEY=your-access-token-key
 TWITTER_ACCESS_TOKEN_SECRET=your-twitter-access-token-secret
 
 SPOTIFY_ID=your-spotify-id
-SPOTIFY_SECRET=your-spotify-secret```
+SPOTIFY_SECRET=your-spotify-secret
+```
 
 LIRI will take care of the rest by loading your keys from your .env file at runtime.
 
@@ -49,7 +53,13 @@ Running any of these commands will print results to your console as well as to a
 
 ### my-tweets
 
-The my-tweets command does not require any additional input.  By default, it will retrieve the most recent 20 tweets from the Twitter account Ed__The__Hyena.  If you'd like to change the account, open up liri.js and find the following code: ```var twitterHandle = {screen_name: "Ed__The__Hyena"};```  Replace Ed__The__Hyena with your desired Twitter handle.  Example:
+The my-tweets command does not require any additional input.  By default, it will retrieve the most recent 20 tweets from the Twitter account Ed__The__Hyena.  If you'd like to change the account, open up liri.js and find the following code:
+
+```
+var twitterHandle = {screen_name: "Ed__The__Hyena"};
+```
+
+Replace Ed__The__Hyena with your desired Twitter handle.  Example:
 
 ```node liri.js my-tweets```
 
