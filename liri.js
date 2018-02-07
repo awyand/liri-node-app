@@ -125,6 +125,25 @@ function determineFunction() {
         console.log("-- movie-this (followed by movie title)");
         console.log("-- do-what-it-says (reads from a text file for command input)\n");
     }
+
+    // Log date/time and command to log.txt
+    var commandTime = moment().format();
+    var logInput = "";
+    if (userInput !== null && userInput !== "\n" && userInput !== undefined && userInput !== "") {
+      logInput = userInput;
+    } else {
+      logInput = "N/A"
+    }
+
+    // As long as command wasn't "do-what-it-says", append a line break to log.txt
+    // (do-what-it-says will add result in a line break being appended based on command in file)
+    if (userCommand !== "do-what-it-says") {
+      fs.appendFile("log.txt", `\n=====================================\n\nDate/Time: ${commandTime}\nCommand: ${userCommand}\nSearch Term: ${logInput}\nResult:\n`, function(err) {
+        if(err) {
+          console.log(err);
+        }
+      });
+    }
   }
 }
 
@@ -143,6 +162,7 @@ function myTweets() {
       console.log(`LIRI Says: Here the 20 most recent tweets from ${twitterHandle.screen_name} (all times local to you):\n`);
 
       var counter = 1;
+
       // Loop through the first 20 tweets returned in tweets (or all tweets if less than 20)
       for (i = 0; i < 20 && i < tweets.length; i++) {
 
@@ -152,14 +172,25 @@ function myTweets() {
         var convertedDate = moment(dateTime).format("MMMM Do YYYY");
         var convertedTime = moment.parseZone(dateTime).local().format("HH:mm a");
 
+        // Log Tweet #
         console.log(`Tweet #${counter}`);
+
+        // Logic for how many equals are printed for clean formatting
         if (counter < 10) {
           console.log("========");
         } else {
           console.log("=========");
         }
 
+        // Log tweet statement to console
         console.log(`At ${convertedTime} on ${convertedDate}, ${twitterHandle.screen_name} tweeted: ${tweets[i].text}\n`);
+
+        // Append tweet statement to log.txt
+        fs.appendFile("log.txt", `  At ${convertedTime} on ${convertedDate}, ${twitterHandle.screen_name} tweeted: ${tweets[i].text}\n`, function(err) {
+          if(err) {
+            console.log(err);
+          }
+        })
 
         // Increment counter
         counter++;
@@ -178,6 +209,7 @@ function spotifySong() {
     userInput = "Hakuna Matata";
   }
 
+  // Spotify API request
   spotifyClient.search({type: "track", query: userInput, limit: 5}, function(err, data) {
     // If no error was returned
     if (!err) {
@@ -199,19 +231,34 @@ function spotifySong() {
           artistsOutput.push(artists[j].name);
         }
 
+        // Save select values to variables
         var title = songs[i].name;
         var link = songs[i].preview_url;
         var album = songs[i].album.name;
+        var artists = artistsOutput.join(", ");
 
+        // Log select variables to console
         console.log(`Result #${counter}`);
         console.log("=========");
-        console.log(`Artist(s): ${artistsOutput.join(", ")}`);
+        console.log(`Artist(s): ${artists}`);
         console.log(`Title: ${title}`);
-        // If there's a preview link for the song, display it
+        console.log(`Album: ${album}\n`);
+
+        // Logic for what gets displayed to console and log.txt, based on presence of link or not
+        var logLink = "";
         if (link) {
           console.log(`Link: ${link}`);
+          logLink = link;
+        } else {
+          logLink = "N/A";
         }
-        console.log(`Album: ${album}\n`);
+
+        // Append information to log.txt
+        fs.appendFile("log.txt", `  Result #${counter}\n  =========\n  Artist(s): ${artists}\n  Title: ${title}\n  Link: ${logLink}\n  Album: ${album}\n\n`, function(err) {
+          if(err) {
+            console.log(err);
+          }
+        });
 
         // Increment counter
         counter++;
@@ -241,16 +288,46 @@ function movieThis() {
     // Parse JSON string for ease of use
     var infoJSON = JSON.parse(info);
 
+    // Logic for what gets logged and added to log.txt for IMDB rating, based on if a value is present or not
+    var imdbRating = "";
+    if (infoJSON.Ratings[0]) {
+      imdbRating = infoJSON.Ratings[0].Value;
+    } else {
+      imdbRating = "N/A";
+    }
+
+    // Logic for what gets logged and added to log.txt for Rotten Tomatoes rating, based on if a value is present or not
+    var rtRating = "";
+    if (infoJSON.Ratings[1]) {
+      rtRating = infoJSON.Ratings[1].Value;
+    } else {
+      rtRating = "N/A";
+    }
+
     // Log required information to console
     console.log(`Title: ${infoJSON.Title}`);
     console.log(`Year: ${infoJSON.Year}`);
-    console.log(`IMDB Rating: ${infoJSON.Ratings[0].Value}`);
-    console.log(`Rotten Tomatoes Rating: ${infoJSON.Ratings[1].Value}`);
+    console.log(`IMDB Rating: ${imdbRating}`);
+    console.log(`Rotten Tomatoes Rating: ${rtRating}`);
     console.log(`Production Country: ${infoJSON.Country}`);
     console.log(`Language(s): ${infoJSON.Language}`);
     console.log(`Plot: ${infoJSON.Plot}`);
     console.log(`Actors: ${infoJSON.Actors}`);
     console.log("");
+
+    // Append required information to log.txt
+    fs.appendFile("log.txt", "  Title: " + infoJSON.Title + "\n"
+      + "  Year: " + infoJSON.Year + "\n"
+      + "  IMDB Rating: " + imdbRating + "\n"
+      + "  Rotten Tomatoes Rating: " + rtRating + "\n"
+      + "  Production Country: " + infoJSON.Country + "\n"
+      + "  Language(s): " + infoJSON.Language + "\n"
+      + "  Plot: " + infoJSON.Plot + "\n"
+      + "  Actors: " + infoJSON.Actors + "\n", function(err) {
+        if(err) {
+          console.log(err);
+        }
+      });
   });
 }
 
