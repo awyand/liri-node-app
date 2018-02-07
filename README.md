@@ -59,13 +59,17 @@ The my-tweets command does not require any additional input.  By default, it wil
 var twitterHandle = {screen_name: "Ed__The__Hyena"};
 ```
 
-Replace Ed__The__Hyena with your desired Twitter handle.  Example:
+Replace Ed__The__Hyena with your desired Twitter handle.
+
+Execution Example:
 
 ```node liri.js my-tweets```
 
 ### spotify-this-song
 
-The spotify-this-song accepts additional input. A song title should follow the "spotify-this-song" command in the  console.  This will retrieve up to five of the closest matches to your query and provide select information on the tracks.  Example:
+The spotify-this-song accepts additional input. A song title should follow the "spotify-this-song" command in the  console.  This will retrieve up to five of the closest matches to your query and provide select information on the tracks.
+
+Execution Example:
 
 ```node liri.js spotify-this-song Stairway to Heaven```
 
@@ -73,7 +77,9 @@ If you do not provide a song title, LIRI defaults to Hakuna Matata.
 
 ### movie-this
 
-The movie-this command accepts additional input.  A movie title should follow the "movie-this" command in the console.  This will retrieve select information on the specified movie.  Example:
+The movie-this command accepts additional input.  A movie title should follow the "movie-this" command in the console.  This will retrieve select information on the specified movie.  
+
+Execution Example:
 
 ```node liri.js movie-this Die Hard```
 
@@ -81,10 +87,12 @@ If you do not provide a song title, LIRI defaults to The Lion King.
 
 ### do-what-it-says
 
-The do-what-it-says command does not require any additional input.  Instead, it reads from a file named random.txt.  This file is meant to contain a comma-separated command and user input, example:
+The do-what-it-says command does not require any additional input.  Instead, it reads from a file named random.txt.  This file is meant to contain a comma-separated command and user input.
+
+File Example:
 
 ```spotify-this-song,Stairway to Heaven,```
 
-For optimal performance, there should be a comma after each argument, including the second argument in the example above and the single argument in the case of a command that doesn't require additiona input, example:
+For optimal performance, there should be a comma after each argument, including the second argument in the example above and the single argument in the case of a command that doesn't require additional input, for example:
 
 ```my-tweets,```
