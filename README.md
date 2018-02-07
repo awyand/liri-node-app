@@ -71,7 +71,9 @@ The spotify-this-song accepts additional input. A song title should follow the "
 
 Execution Example:
 
-```node liri.js spotify-this-song Stairway to Heaven```
+```
+node liri.js spotify-this-song Stairway to Heaven
+```
 
 If you do not provide a song title, LIRI defaults to Hakuna Matata.
 
@@ -81,7 +83,9 @@ The movie-this command accepts additional input.  A movie title should follow th
 
 Execution Example:
 
-```node liri.js movie-this Die Hard```
+```
+node liri.js movie-this Die Hard
+```
 
 If you do not provide a song title, LIRI defaults to The Lion King.
 
@@ -91,8 +95,12 @@ The do-what-it-says command does not require any additional input.  Instead, it 
 
 File Example:
 
-```spotify-this-song,Stairway to Heaven,```
+```
+spotify-this-song,Stairway to Heaven,
+```
 
 For optimal performance, there should be a comma after each argument, including the second argument in the example above and the single argument in the case of a command that doesn't require additional input, for example:
 
-```my-tweets,```
+```
+my-tweets,
+```
