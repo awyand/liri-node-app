@@ -26,9 +26,7 @@ All dependencies are tracked in the provided package.json and package-lock.json 
 
 ### API Keys
 
-You will need to obtain API keys for the Twitter and Spotify APIs.  Use the links in the Description section to obtain them.  Once you've obtained your keys, create a file named .env within the "liri-node-app" directory and save your keys and secrets like this: ```
-
-TWITTER_CONSUMER_KEY=your-twitter-consumer-key
+You will need to obtain API keys for the Twitter and Spotify APIs.  Use the links in the Description section to obtain them.  Once you've obtained your keys, create a file named .env within the "liri-node-app" directory and save your keys and secrets like this: ```TWITTER_CONSUMER_KEY=your-twitter-consumer-key
 TWITTER_CONSUMER_SECRET=your-twitter-consumer-secret
 TWITTER_ACCESS_TOKEN_KEY=your-access-token-key
 TWITTER_ACCESS_TOKEN_SECRET=your-twitter-access-token-secret
